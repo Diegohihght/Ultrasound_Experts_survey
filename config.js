@@ -9,11 +9,11 @@ const SURVEY_CONFIG = {
 
   VIDEO_TUTORIAL_URL: "PASTE_YOUR_VIDEO_LINK_HERE",
 
-  // Caso/carpeta representativa de imágenes para mostrar en la vista de referencia
+  // Reference case/folder used for the images shown in the reference view
   GLOBAL_CASE_ID: "2",
-  GLOBAL_CASE_LABEL: "Caso de referencia",
+  GLOBAL_CASE_LABEL: "Reference case",
 
-  // Lista de algoritmos a evaluar globalmente
+  // The 7 algorithms being evaluated globally
   ALGORITHMS: [
     { id: "yiffana_pt",       label: "Percentile Threshold (Yiffana)" },
     { id: "yiffana_blanket",  label: "Percentile Threshold + Blanket" },

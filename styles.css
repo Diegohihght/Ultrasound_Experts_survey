@@ -22,7 +22,7 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0 !important;
-  padding: 20px 10px !important; /* Espacio mínimo vertical y lateral */
+  padding: 20px 10px !important; /* minimal top/bottom + side padding */
   width: 100% !important;
   box-sizing: border-box;
 }
@@ -38,7 +38,7 @@ h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 
 /* -------- top progress bar -------- */
 
 .progress-wrap {
-  max-width: 96% !important;   /* Ocupa el 96% de todo el ancho del navegador */
+  max-width: 96% !important;   /* fill 96% of the viewport width */
   width: 96% !important;
   margin: 0 auto !important;
 }
@@ -71,7 +71,7 @@ h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 
 .card {
   max-width: 100% !important; 
   width: 100% !important;
-  padding: 20px 15px !important; /* Reduce el margen interno dentro de la tarjeta blanca */
+  padding: 20px 15px !important; /* tighter inner padding on the card */
   box-sizing: border-box;
 }
 
@@ -213,11 +213,6 @@ h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 
 .ref-thumb img {
   width: 100% !important;
   max-width: 100% !important;
-  display: block !important;
-}
-.ref-thumb img {
-  width: 100% !important;
-  max-width: 100% !important;
   height: auto !important;
   display: block !important;
   margin: 0 auto !important;
@@ -225,7 +220,7 @@ h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 
 .ref-thumb .cap {
   font-size: 0.95rem;
   color: #334155;
-  padding: 10px 0 20px 0;         /* Darle un poco de espacio al texto inferior */
+  padding: 10px 0 20px 0;         /* a little breathing room under the caption */
   font-weight: 600;
   text-align: center;
 }
@@ -262,8 +257,8 @@ h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 
 }
 
 .rank-thumb {
-  max-width: 100% !important;  /* Para que abarque todo el ancho disponible */
-  height: auto !important;     /* Que escale libremente */
+  max-width: 100% !important;  /* fill the available width */
+  height: auto !important;     /* scale freely */
 }
 .rank-thumb img {
   width: 100% !important;

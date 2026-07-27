@@ -4,12 +4,10 @@
   const CFG = SURVEY_CONFIG;
   const root = document.getElementById("app-root");
 
-  // ---------------------------------------------------------------------
-  // Estado de la Aplicación
-  // ---------------------------------------------------------------------
+  // -- app state --
 
   const state = {
-    step: 0,                 // 0 = bienvenida, 1 = información, 2 = ranking global, 3 = revisión, 4 = gracias
+    step: 0,                 // 0 = welcome, 1 = info, 2 = global ranking, 3 = review, 4 = thanks
     info: { experience: "", degree: "", specialty: "", institution: "", email: "" },
     globalRanking: null,     // { letters: {algoId: 'A'}, order: [algoId,...] }
     submitting: false,
@@ -56,9 +54,7 @@
     return img;
   }
 
-  // ---------------------------------------------------------------------
-  // Barra de Progreso
-  // ---------------------------------------------------------------------
+  // -- progress bar --
 
   function progressPct() {
     if (state.step <= 0) return 0;
@@ -67,16 +63,14 @@
   }
 
   function progressLabel() {
-    if (state.step === 0) return "Bienvenido";
-    if (state.step === STEP_INFO) return "Su experiencia";
-    if (state.step === STEP_RANKING) return "Ranking Global de Algoritmos";
-    if (state.step === STEP_REVIEW) return "Revisión";
-    return "Completado";
+    if (state.step === 0) return "Welcome";
+    if (state.step === STEP_INFO) return "Your background";
+    if (state.step === STEP_RANKING) return "Global Algorithm Ranking";
+    if (state.step === STEP_REVIEW) return "Review";
+    return "Done";
   }
 
-  // ---------------------------------------------------------------------
-  // Renderizado
-  // ---------------------------------------------------------------------
+  // -- rendering --
 
   function render() {
     root.innerHTML = "";
@@ -108,23 +102,23 @@
   function renderWelcome(card) {
     card.innerHTML = `
       <div class="eyebrow">WESTLAB / Mitacs &mdash; Bone &amp; Callus Segmentation</div>
-      <h1>¿Qué algoritmo de segmentación es más preciso en general?</h1>
+      <h1>Which segmentation algorithm is most accurate overall?</h1>
       <p class="subtitle">
-        Siete métodos automatizados han procesado el conjunto de imágenes de ultrasonido.
-        En esta evaluación global, pedimos a expertos que ordenen los 7 algoritmos
-        según su desempeño general considerando todas las muestras.
+        Seven automated methods processed the full set of ultrasound images.
+        In this global evaluation, we're asking experts to rank the 7 algorithms
+        by their overall performance across all samples.
       </p>
       <a class="welcome-video" href="${CFG.VIDEO_TUTORIAL_URL}" target="_blank" rel="noopener">
-        &#9654;&nbsp; Ver el tutorial antes de comenzar
+        &#9654;&nbsp; Watch the tutorial before you start
       </a>
       <ul class="fact-list">
-        <li><span class="dot"></span> Toma aproximadamente 3&ndash;5 minutos en una sola pantalla de ranking.</li>
-        <li><span class="dot"></span> Ordenará las 7 opciones anónimas de mejor a peor desempeño global.</li>
-        <li><span class="dot"></span> Puede presionar cualquier miniatura para hacer zoom antes de decidir.</li>
-        <li><span class="dot"></span> Su progreso no se guarda hasta enviar el formulario al final.</li>
+        <li><span class="dot"></span> Takes about 3&ndash;5 minutes, on a single ranking screen.</li>
+        <li><span class="dot"></span> You'll order the 7 anonymous options from best to worst overall performance.</li>
+        <li><span class="dot"></span> Tap any thumbnail to zoom in before deciding.</li>
+        <li><span class="dot"></span> Your progress isn't saved until you submit the form at the end.</li>
       </ul>
       <div class="btn-row">
-        <button class="btn btn-primary" id="btn-start">Comenzar</button>
+        <button class="btn btn-primary" id="btn-start">Start</button>
       </div>
     `;
     card.querySelector("#btn-start").onclick = () => { state.step = STEP_INFO; render(); };
@@ -133,39 +127,39 @@
   function renderInfo(card) {
     const i = state.info;
     card.innerHTML = `
-      <div class="eyebrow">Antes de comenzar</div>
-      <h2>Información profesional</h2>
-      <p class="subtitle">Se utiliza únicamente para describir al panel en conjunto &mdash; nunca se vincula individualmente.</p>
+      <div class="eyebrow">Before you begin</div>
+      <h2>Professional background</h2>
+      <p class="subtitle">Used only to describe the panel as a whole &mdash; never linked to you individually.</p>
 
       <div class="field">
-        <label for="f-exp">Años de experiencia clínica / investigación</label>
+        <label for="f-exp">Years of clinical / research experience</label>
         <input type="number" id="f-exp" min="0" max="60" placeholder="e.g. 7" value="${i.experience}">
       </div>
 
       <div class="field">
-        <label>Grado / Nivel profesional</label>
+        <label>Degree / professional level</label>
         <div class="radio-grid" id="f-degree"></div>
       </div>
 
       <div class="field">
-        <label for="f-spec">Especialidad</label>
-        <input type="text" id="f-spec" placeholder="e.g. Cirugía ortopédica" value="${i.specialty}">
+        <label for="f-spec">Specialty</label>
+        <input type="text" id="f-spec" placeholder="e.g. Orthopedic surgery" value="${i.specialty}">
       </div>
 
       <div class="field">
-        <label for="f-inst">Institución / Afiliación</label>
-        <input type="text" id="f-inst" placeholder="e.g. Hospital / Universidad" value="${i.institution}">
+        <label for="f-inst">Institution / affiliation</label>
+        <input type="text" id="f-inst" placeholder="e.g. Hospital / University" value="${i.institution}">
       </div>
 
       <div class="field">
-        <label for="f-email">Correo electrónico <span class="hint">(opcional)</span></label>
-        <input type="email" id="f-email" placeholder="usted@hospital.org" value="${i.email}">
+        <label for="f-email">Email <span class="hint">(optional)</span></label>
+        <input type="email" id="f-email" placeholder="you@hospital.org" value="${i.email}">
       </div>
 
       <div id="info-error"></div>
       <div class="btn-row">
-        <button class="btn btn-secondary" id="btn-back">Atrás</button>
-        <button class="btn btn-primary" id="btn-next">Continuar</button>
+        <button class="btn btn-secondary" id="btn-back">Back</button>
+        <button class="btn btn-primary" id="btn-next">Continue</button>
       </div>
     `;
 
@@ -192,7 +186,7 @@
     card.querySelector("#btn-next").onclick = () => {
       if (!i.experience || !i.degree || !i.specialty.trim()) {
         card.querySelector("#info-error").innerHTML =
-          `<div class="error-banner">Por favor complete los años de experiencia, grado y especialidad.</div>`;
+          `<div class="error-banner">Please fill in years of experience, degree, and specialty.</div>`;
         return;
       }
       state.step = STEP_RANKING;
@@ -204,16 +198,16 @@
     const entry = ensureGlobalRankingState();
 
     card.innerHTML = `
-      <div class="eyebrow">Evaluación Global</div>
-      <h2>Ordene los 7 algoritmos de mejor a peor en general</h2>
-      <p class="subtitle">Considere el rendimiento general de cada algoritmo a través de todas las muestras. Arrastre las opciones o use las flechas.</p>
+      <div class="eyebrow">Global evaluation</div>
+      <h2>Rank the 7 algorithms from best to worst overall</h2>
+      <p class="subtitle">Consider each algorithm's overall performance across all samples. Drag the options, or use the arrows.</p>
     `;
 
     const refRow = document.createElement("div");
     refRow.className = "ref-row";
     [
-      ["original", "Imagen original de referencia y segmentaciones de expertos"],
-      ["majority_vote", "Voto mayoritario de expertos"],
+      ["original", "Original reference image and expert segmentations"],
+      ["majority_vote", "Expert majority vote"],
       ["staple", "STAPLE"],
     ].forEach(([file, cap]) => {
       const thumb = document.createElement("div");
@@ -231,7 +225,7 @@
 
     const instr = document.createElement("p");
     instr.className = "rank-instructions";
-    instr.textContent = "1 = Mejor algoritmo en general · 7 = Peor algoritmo en general";
+    instr.textContent = "1 = best algorithm overall · 7 = worst algorithm overall";
     card.appendChild(instr);
 
     const list = document.createElement("ul");
@@ -260,14 +254,14 @@
 
         const thumbWrap = document.createElement("div");
         thumbWrap.className = "rank-thumb";
-        const img = imgWithFallback(imageSrc(GLOBAL_IMAGE_ID, algoId), `Opción ${entry.letters[algoId]}`);
+        const img = imgWithFallback(imageSrc(GLOBAL_IMAGE_ID, algoId), `Option ${entry.letters[algoId]}`);
         thumbWrap.appendChild(img);
         thumbWrap.onclick = () => openLightbox(img.src);
         li.appendChild(thumbWrap);
 
         const name = document.createElement("div");
         name.className = "rank-name";
-        name.textContent = `Opción ${entry.letters[algoId]}`;
+        name.textContent = `Option ${entry.letters[algoId]}`;
         li.appendChild(name);
 
         const controls = document.createElement("div");
@@ -277,7 +271,7 @@
         upBtn.className = "icon-btn";
         upBtn.type = "button";
         upBtn.innerHTML = "&#8593;";
-        upBtn.setAttribute("aria-label", "Mover arriba");
+        upBtn.setAttribute("aria-label", "Move up");
         upBtn.disabled = idx === 0;
         upBtn.onclick = () => { moveItem(idx, idx - 1); };
 
@@ -285,7 +279,7 @@
         downBtn.className = "icon-btn";
         downBtn.type = "button";
         downBtn.innerHTML = "&#8595;";
-        downBtn.setAttribute("aria-label", "Mover abajo");
+        downBtn.setAttribute("aria-label", "Move down");
         downBtn.disabled = idx === entry.order.length - 1;
         downBtn.onclick = () => { moveItem(idx, idx + 1); };
 
@@ -328,8 +322,8 @@
     const btnRow = document.createElement("div");
     btnRow.className = "btn-row";
     btnRow.innerHTML = `
-      <button class="btn btn-secondary" id="btn-back">Atrás</button>
-      <button class="btn btn-primary" id="btn-next">Revisar respuestas</button>
+      <button class="btn btn-secondary" id="btn-back">Back</button>
+      <button class="btn btn-primary" id="btn-next">Review answers</button>
     `;
     card.appendChild(btnRow);
 
@@ -348,20 +342,20 @@
   function renderReview(card) {
     const i = state.info;
     card.innerHTML = `
-      <div class="eyebrow">Casi listo</div>
-      <h2>Revise antes de enviar</h2>
-      <p class="subtitle">Aún puede regresar y realizar cambios en su orden de selección.</p>
+      <div class="eyebrow">Almost done</div>
+      <h2>Review before you submit</h2>
+      <p class="subtitle">You can still go back and change your ranking.</p>
       <div class="summary-grid">
-        <div class="summary-row"><span class="k">Experiencia</span><span class="v">${escapeHtml(i.experience)} años</span></div>
-        <div class="summary-row"><span class="k">Grado</span><span class="v">${escapeHtml(i.degree)}</span></div>
-        <div class="summary-row"><span class="k">Especialidad</span><span class="v">${escapeHtml(i.specialty)}</span></div>
-        <div class="summary-row"><span class="k">Institución</span><span class="v">${escapeHtml(i.institution || "\u2014")}</span></div>
-        <div class="summary-row"><span class="k">Evaluación</span><span class="v">Ranking Global Completado</span></div>
+        <div class="summary-row"><span class="k">Experience</span><span class="v">${escapeHtml(i.experience)} years</span></div>
+        <div class="summary-row"><span class="k">Degree</span><span class="v">${escapeHtml(i.degree)}</span></div>
+        <div class="summary-row"><span class="k">Specialty</span><span class="v">${escapeHtml(i.specialty)}</span></div>
+        <div class="summary-row"><span class="k">Institution</span><span class="v">${escapeHtml(i.institution || "\u2014")}</span></div>
+        <div class="summary-row"><span class="k">Evaluation</span><span class="v">Global ranking completed</span></div>
       </div>
       <div id="submit-error"></div>
       <div class="btn-row">
-        <button class="btn btn-secondary" id="btn-back">Atrás</button>
-        <button class="btn btn-primary" id="btn-submit">${state.submitting ? "Enviando\u2026" : "Enviar mi ranking"}</button>
+        <button class="btn btn-secondary" id="btn-back">Back</button>
+        <button class="btn btn-primary" id="btn-submit">${state.submitting ? "Submitting\u2026" : "Submit my ranking"}</button>
       </div>
     `;
     card.querySelector("#btn-back").onclick = () => { state.step = STEP_RANKING; render(); };
@@ -376,9 +370,9 @@
   function renderThanks(card) {
     card.innerHTML = `
       <div class="thanks-icon">&#10003;</div>
-      <h2>¡Gracias! Su ranking ha sido registrado.</h2>
+      <h2>Thank you! Your ranking has been recorded.</h2>
       <p class="subtitle">
-        Su evaluación servirá para determinar el algoritmo de segmentación más efectivo.
+        Your evaluation will help determine the most effective segmentation algorithm.
       </p>
     `;
   }
@@ -390,7 +384,7 @@
   function openLightbox(src) {
     const box = document.createElement("div");
     box.className = "lightbox";
-    box.innerHTML = `<button class="close-x" aria-label="Cerrar">&times;</button>`;
+    box.innerHTML = `<button class="close-x" aria-label="Close">&times;</button>`;
     const img = document.createElement("img");
     img.src = src;
     box.appendChild(img);
@@ -428,7 +422,7 @@
 
     try {
       if (!CFG.APPS_SCRIPT_URL || CFG.APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0) {
-        throw new Error("El sistema no está configurado (falta APPS_SCRIPT_URL).");
+        throw new Error("The survey isn't configured yet (missing APPS_SCRIPT_URL).");
       }
       await fetch(CFG.APPS_SCRIPT_URL, {
         method: "POST",
@@ -439,7 +433,7 @@
       render();
     } catch (err) {
       state.submitting = false;
-      state.submitError = "No se pudo conectar con el servidor. Intente nuevamente.";
+      state.submitError = "Couldn't connect to the server. Please try again.";
       renderReview(root.querySelector(".card"));
     }
   }
