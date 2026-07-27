@@ -288,7 +288,13 @@
         li.appendChild(controls);
 
         li.addEventListener("dragstart", () => { li.classList.add("dragging"); });
-        li.addEventListener("dragend", () => { li.classList.remove("dragging"); paintList(); });
+        li.addEventListener("dragend", () => {
+          li.classList.remove("dragging");
+          // If drop() already handled the reorder, the list was rebuilt with
+          // fresh nodes and nothing here still carries the dragging class --
+          // repainting again would just cut the slide animation short.
+          if (list.querySelector(".dragging")) paintList();
+        });
         li.addEventListener("dragover", (e) => {
           e.preventDefault();
           li.classList.add("drag-over");
@@ -312,9 +318,32 @@
 
     function moveItem(fromIdx, toIdx) {
       if (toIdx < 0 || toIdx >= entry.order.length) return;
+
+      // FLIP: capture where every row currently sits, reorder + repaint,
+      // then slide each row from its old spot into its new one instead of
+      // just popping into place -- makes the reorder actually readable.
+      const firstRects = new Map();
+      Array.from(list.children).forEach(el => {
+        firstRects.set(el.dataset.algoId, el.getBoundingClientRect());
+      });
+
       const [moved] = entry.order.splice(fromIdx, 1);
       entry.order.splice(toIdx, 0, moved);
       paintList();
+
+      Array.from(list.children).forEach(el => {
+        const first = firstRects.get(el.dataset.algoId);
+        if (!first) return;
+        const last = el.getBoundingClientRect();
+        const deltaY = first.top - last.top;
+        if (!deltaY) return;
+        el.style.transition = "none";
+        el.style.transform = `translateY(${deltaY}px)`;
+        requestAnimationFrame(() => {
+          el.style.transition = "transform 320ms cubic-bezier(.22,.8,.28,1)";
+          el.style.transform = "";
+        });
+      });
     }
 
     paintList();
@@ -333,9 +362,9 @@
 
   function rankColor(idx, total) {
     const t = total <= 1 ? 0 : idx / (total - 1);
-    const teal = [47, 107, 98];
+    const purple = [61, 18, 118];
     const wine = [126, 41, 84];
-    const c = teal.map((v, i) => Math.round(v + (wine[i] - v) * t));
+    const c = purple.map((v, i) => Math.round(v + (wine[i] - v) * t));
     return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
   }
 
