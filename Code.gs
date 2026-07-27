@@ -56,7 +56,7 @@ function padTo(arr, n) {
 }
 
 function getOrCreateSheet() {
-  const ss = SpreadsheetApp.openById("AKfycbxd_e4uSyZgOh1rE8uLySfeYFpQdau9MIaGzxX9HBouq0xwvRkiuVhyrYXbnkw461Io"); 
+  const ss = SpreadsheetApp.openById("1Wr7opYWTKZGU6ZsIzqg-g6zxawd2OyijYIk-MxSi0dgIo"); 
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
